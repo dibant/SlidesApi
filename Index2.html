@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="release/jquery.fullscreen-0.3.5.js?v=4"></script>
+<script type="text/javascript" src="loadxmldoc.js"></script>
+<script type="text/javascript">
+	var currentIndex = 0;
+	
+	function ChangeImage(){
+		xmlDoc=loadXMLDoc("books.xml");
+
+		x=xmlDoc.getElementsByTagName("title");
+		/*for (i=0;i<x.length;i++)
+		{ 
+		  document.write(x[i].childNodes[0].nodeValue);
+		  document.write("<br>");
+		}*/
+		
+		document.getElementById("imgAds").src = x[currentIndex].childNodes[0].nodeValue;
+		currentIndex++;
+		if(currentIndex==x.length-1){
+			currentIndex=0;
+		}
+		var n = setTimeout("ChangeImage()",150000);
+	}
+	$( document ).ready(function() {
+    	ChangeImage();
+	});
+	$(function() {
+		// check native support
+		$('#support').text($.fullscreen.isNativelySupported() ? 'supports' : 'doesn\'t support');
+
+		// open in fullscreen
+		$('.requestfullscreen').click(function() {
+			toggleFullScreenNew(); //$('#fullscreen').fullscreen();
+			return false;
+		});
+
+		// exit fullscreen
+		$('.exitfullscreen').click(function() {
+			$.fullscreen.exit();
+			return false;
+		});
+
+		// document's event
+		$(document).bind('fscreenchange', function(e, state, elem) {
+			// if we currently in fullscreen mode
+			if ($.fullscreen.isFullScreen()) {
+				$('.requestfullscreen').hide();
+				$('.exitfullscreen').show();
+			} else {
+				$('.requestfullscreen').show();
+				$('.exitfullscreen').hide();
+			}
+
+			$('#state').text($.fullscreen.isFullScreen() ? '' : 'not');
+		});
+		
+	});
+	function toggleFullScreenNew() {
+	  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    // alternative standard method
+		  (!document.mozFullScreen && !document.webkitIsFullScreen)) {               // current working methods
+		if (document.documentElement.requestFullScreen) {
+		  document.documentElement.requestFullScreen();
+		} else if (document.documentElement.mozRequestFullScreen) {
+		  document.documentElement.mozRequestFullScreen();
+		} else if (document.documentElement.webkitRequestFullScreen) {
+		  document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+		}
+	  } else {
+		if (document.cancelFullScreen) {
+		  document.cancelFullScreen();
+		} else if (document.mozCancelFullScreen) {
+		  document.mozCancelFullScreen();
+		} else if (document.webkitCancelFullScreen) {
+		  document.webkitCancelFullScreen();
+		}
+	  }
+	}
+</script>
+</head>
+
+<body>
+
+<div id="fullscreen">
+<div id="blueimp-image-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+<img id="imgAds" src="../Ads/Ads-On1.png" width="200"  class="requestfullscreen" alt="Ads" longdesc="http://www.fadboard.com/"></div></div>
+<a href="#" class="requestfullscreen">Click to open it in fullscreen</a>
+</body>
+</html>

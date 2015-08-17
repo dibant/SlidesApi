@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery.fullscreen example</title>
+	<link rel="stylesheet" href="styles.css" type="text/css" media="screen"><link rel="stylesheet" href="css/blueimp-gallery.css">
+<link rel="stylesheet" href="css/blueimp-gallery-indicator.css">
+<link rel="stylesheet" href="css/blueimp-gallery-video.css">
+<link rel="stylesheet" href="css/demo.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="release/jquery.fullscreen-0.3.5.js?v=4"></script>
+</head>
+<body>
+<div id="fullscreen">
+<div id="blueimp-image-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+<div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="play-pause"></a>
+</div></div>
+<a href="#" class="requestfullscreen">Click to open it in fullscreen</a>
+<script src="js/blueimp-helper.js"></script>
+<script src="js/blueimp-gallery.js"></script>
+<script src="js/blueimp-gallery-fullscreen.js"></script>
+<script src="js/blueimp-gallery-indicator.js"></script>
+<script src="js/blueimp-gallery-video.js"></script>
+<script src="js/blueimp-gallery-vimeo.js"></script>
+<script src="js/blueimp-gallery-youtube.js"></script>
+<script src="http//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/SlidesDB.js"></script>
+<script>
+/*jslint evil: true */
+/*global window, document*/
+// Including jQuery via the protocol relative url above works for both http and https.
+// Explicitly including jQuery via http allows running the Gallery demo as local file:
+if (!window.jQuery) {
+    document.write(
+        '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"><\/script>'
+    );
+}
+</script>
+<script src="js/jquery.blueimp-gallery.js"></script>
+<script src="js/demo.js?v2"></script>
+<script type="text/javascript">
+				$(function() {
+					// check native support
+					$('#support').text($.fullscreen.isNativelySupported() ? 'supports' : 'doesn\'t support');
+
+					// open in fullscreen
+					$('.requestfullscreen').click(function() {
+						$('#fullscreen').fullscreen();
+						return false;
+					});
+
+					// exit fullscreen
+					$('.exitfullscreen').click(function() {
+						$.fullscreen.exit();
+						return false;
+					});
+
+					// document's event
+					$(document).bind('fscreenchange', function(e, state, elem) {
+						// if we currently in fullscreen mode
+						if ($.fullscreen.isFullScreen()) {
+							$('.requestfullscreen').hide();
+							$('.exitfullscreen').show();
+						} else {
+							$('.requestfullscreen').show();
+							$('.exitfullscreen').hide();
+						}
+
+						$('#state').text($.fullscreen.isFullScreen() ? '' : 'not');
+					});
+
+				});
+				window.onload = function(){}
+				$( document ).ready(function() {
+					var r = setTimeout("toggleFullScreenNew();",3000);
+					if (slideDB){
+						slideDB.openDB();
+						slideDB.saveCurrImageToDB();
+					}
+						return false;
+				});
+
+				 function toggleFullScreenNew() {
+				  if ((document.fullScreenElement && document.fullScreenElement !== null) ||    // alternative standard method
+					  (!document.mozFullScreen && !document.webkitIsFullScreen)) {               // current working methods
+					if (document.documentElement.requestFullScreen) {
+					  document.documentElement.requestFullScreen();
+					} else if (document.documentElement.mozRequestFullScreen) {
+					  document.documentElement.mozRequestFullScreen();
+					} else if (document.documentElement.webkitRequestFullScreen) {
+					  document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+					}
+				  } else {
+					if (document.cancelFullScreen) {
+					  document.cancelFullScreen();
+					} else if (document.mozCancelFullScreen) {
+					  document.mozCancelFullScreen();
+					} else if (document.webkitCancelFullScreen) {
+					  document.webkitCancelFullScreen();
+					}
+				  }
+				}
+			</script>
+            <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-62712512-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
